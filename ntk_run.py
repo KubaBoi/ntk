@@ -27,7 +27,7 @@ def save(capture_count: int, capture_time: int) -> None:
     path = os.path.abspath(os.path.dirname(__file__))
     data_path = os.path.join(path, "data.json")
     mode = "w"
-    pre = "{"
+    pre = ""
     if (os.path.exists(data_path)):
         mode = "a"
         pre = ","

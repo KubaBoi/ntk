@@ -1,0 +1,45 @@
+name: Update
+
+on:
+  schedule:
+    #- cron:  '20/15 * * * *' # every 15 minutes starting 20th minute 20,35,50
+    - cron: '0/1 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
+        with:
+            ref: main
+
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' # install the python version needed
+          
+      - name: Install dependecies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade requests
+          python3 -m pip install --upgrade bs4
+
+      - name: Promote version
+        run: python3 ./ntk_run.py ${{ github.event.commits[0].message }}
+
+      - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "${{ steps.buildPrepare.outputs.commitMessage }}" -a
+          
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main  
+
+        
