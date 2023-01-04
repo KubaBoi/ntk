@@ -25,18 +25,24 @@ def save(capture_count: int, capture_time: int) -> None:
     `capture_time` is unix time taken before the request is send
     """
     path = os.path.abspath(os.path.dirname(__file__))
-    data_path = os.path.join(path, "data.json")
-    mode = "w"
+    data_path = os.path.join(path, "data.js")
     pre = ""
     if (os.path.exists(data_path)):
-        mode = "a"
-        pre = ","
-        
-    with open(data_path, mode, encoding="utf-8") as f:
-        f.write(f"{pre}\n\"{capture_time}\": {capture_count}")
+        pre = ",\n"
+    else:
+        with open(data_path, "w", encoding="utf-8") as f:
+            f.write("var data = {\n")
+
+    with open(data_path, "r", encoding="utf-8") as f:
+        data = f.read().replace("}", "")
+
+    with open(data_path, "w", encoding="utf-8") as f:
+        f.write(f"{data}{pre}{capture_time}: {capture_count}" + "}")
 
 tm = time.time()
 count = get_count(get_soup())
 save(count, tm)
+
+print(tm)
 
 

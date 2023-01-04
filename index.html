@@ -1,0 +1,31 @@
+<html lang="cs">
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+        <label>Aktuální počet lidí: </label>
+        <label id="actCount"></label>
+    </body>
+
+    <script src="./data.js"></script>
+
+    <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/time.js"></script>
+    <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/communication.js"></script> 
+
+    <script>
+        async function getData() {
+            var response = await callEndpoint("GET", "https://raw.githubusercontent.com/KubaBoi/ntk/main/data.json");
+            if (response.ERROR == null) {
+                console.log(response);
+            }
+            else {
+                alert(response.ERROR);
+            }
+        } 
+        let label = document.getElementById("actCount");
+        label.innerHTML = "ahoj";
+        console.log(data);
+    </script>
+</html>
