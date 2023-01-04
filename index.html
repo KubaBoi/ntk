@@ -11,37 +11,32 @@
         <label>Poslední aktualizace: </label>
         <label id="lastUpdate"></label>
 
+        <br><br>
 
+        <input type="radio" id="all" name="time_epoch" onclick="change(0)">
+        <label for="all">Vše</label>
+        <input type="radio" id="day" name="time_epoch" onclick="change(1)">
+        <label for="day">Dnešek</label>
+        <input type="radio" id="month" name="time_epoch" onclick="change(2)">
+        <label for="month">Poslední měsíc</label>
+        <input type="radio" id="year" name="time_epoch" onclick="change(3)">
+        <label for="year">Poslední rok</label> 
+        <hr>
         <canvas id="myChart" style="width:100%;max-width:80%;max-height: 70%;"></canvas>
 
     </body>
 
     <script src="./data.js"></script>
+    <script src="./chart.js"></script>
+    <script src="./formatTime.js"></script>
+    <script src="./filter.js"></script>
 
     <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/time.js"></script>
     <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/communication.js"></script> 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-
     <script>
-        function formatUnix(unixTime) {
-            var date = new Date(unixTime * 1000);
-        
-            var year = date.getFullYear();
-            var month = date.getMonth() + 1;
-            var day = date.getDate();
-
-            var hours = date.getHours();
-            var minutes = "0" + date.getMinutes();
-            var seconds = "0" + date.getSeconds();
-
-            var formattedDate = day + "." + month + "." + year;
-            var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-            return formattedDate + " " + formattedTime;
-        }
-
         var times = Object.keys(data);
         var values = Object.values(data);
 
@@ -56,24 +51,26 @@
             formattedTimes.push(formatUnix(times[i]));
         }
 
-        new Chart("myChart", {
-        type: "line",
-        data: {
-            labels: formattedTimes,
-            datasets: [{
-                fill: true,
-                lineTension: 0.2,
-                backgroundColor: "rgba(0,0,255,0.1)",
-                borderColor: "rgba(0,0,255,1)",
-                data: values
-            }]
-        },
-        options: {
-            legend: {display: false},
-            scales: {
-                yAxes: [{ticks: {min: 6, max:1000}}],
+        function change(value=0) {
+            let indices = [0, formattedTimes.length];
+            switch (value) {
+                case 1:
+                    indices = day();
+                    break;
+                case 2:
+                    indices = month();
+                    break;
+                case 3:
+                    indices = year();
+                    break;
             }
+
+            sliceTimes = formattedTimes.slice(indices[0], indices[1]);
+            sliceValues = values.slice(indices[0], indices[1]);
+
+            drawChart(sliceTimes, sliceValues);
         }
-        });
+        change();
+        
     </script>
 </html>
