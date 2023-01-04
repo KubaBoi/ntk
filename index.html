@@ -7,6 +7,9 @@
     <body>
         <label>Aktuální počet lidí: </label>
         <label id="actCount"></label>
+        <br>
+        <label>Poslední aktualizace: </label>
+        <label id="lastUpdate"></label>
     </body>
 
     <script src="./data.js"></script>
@@ -15,17 +18,19 @@
     <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/communication.js"></script> 
 
     <script>
-        async function getData() {
-            var response = await callEndpoint("GET", "https://raw.githubusercontent.com/KubaBoi/ntk/main/data.json");
-            if (response.ERROR == null) {
-                console.log(response);
-            }
-            else {
-                alert(response.ERROR);
-            }
-        } 
-        let label = document.getElementById("actCount");
-        label.innerHTML = "ahoj";
-        console.log(data);
+        
+        var label = document.getElementById("actCount");
+        var times = Object.keys(data);
+        label.innerHTML = data[times[times.length - 1]];
+
+        var date = new Date(times[times.length - 1] * 1000);
+        console.log(date.toDateString());
+        var hours = date.getHours();
+        var minutes = "0" + date.getMinutes();
+        var seconds = "0" + date.getSeconds();
+
+        var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+        console.log(formattedTime);
     </script>
 </html>

@@ -39,7 +39,7 @@ def save(capture_count: int, capture_time: int) -> None:
     with open(data_path, "w", encoding="utf-8") as f:
         f.write(f"{data}{pre}{capture_time}: {capture_count}" + "}")
 
-tm = time.time()
+tm = int(time.time())
 count = get_count(get_soup())
 save(count, tm)
 
