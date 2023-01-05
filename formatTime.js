@@ -17,7 +17,7 @@ function formatUnix(unixTime) {
 }
 
 function getDate(unixTime) {
-    return new Date((parseInt(unixTime) + (7*3600)) * 1000);
+    return new Date((parseInt(unixTime) + (0*3600)) * 1000);
 }
 
 function getNow() {
