@@ -54,12 +54,16 @@
                 <label for="day">Dnešek</label>
             </span>
             <span class="filter-switch-item">
-                <input type="radio" id="month" name="time_epoch" onclick="change(2)">
-                <label for="month">Poslední měsíc</label>
+                <input type="radio" id="week" name="time_epoch" onclick="change(2)">
+                <label for="week">Tento týden</label>
             </span>
             <span class="filter-switch-item">
-                <input type="radio" id="year" name="time_epoch" onclick="change(3)">
-                <label for="year">Poslední rok</label> 
+                <input type="radio" id="month" name="time_epoch" onclick="change(3)">
+                <label for="month">Tento měsíc</label>
+            </span>
+            <span class="filter-switch-item">
+                <input type="radio" id="year" name="time_epoch" onclick="change(4)">
+                <label for="year">Tento rok</label> 
             </span>
         </div>
         <br>
@@ -98,9 +102,11 @@
                     indices = day();
                     break;
                 case 2:
+                    indices = week();
+                case 3:
                     indices = month();
                     break;
-                case 3:
+                case 4:
                     indices = year();
                     break;
             }
