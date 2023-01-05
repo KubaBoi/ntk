@@ -19,30 +19,30 @@ function day() {
 function month() {
     var date = getNow();
 
-    let startIndex = 0;
+    let startIndex = -1;
     let endIndex = 0;
     for (let i = 0; i < times.length; i++) {
         var tempDate = getDate(times[i]);
         if (tempDate.getMonth() == date.getMonth() &&
             tempDate.getFullYear() == date.getFullYear()) {
-            if (startIndex == 0) startIndex = i;
+            if (startIndex == -1) startIndex = i;
             endIndex = i;
         }
     }
-    return [startIndex, endIndex];
+    return [startIndex, endIndex + 1];
 }
 
 function year() {
     var date = getNow();
 
-    let startIndex = 0;
+    let startIndex = -1;
     let endIndex = 0;
     for (let i = 0; i < times.length; i++) {
         var tempDate = getDate(times[i]);
         if (tempDate.getFullYear() == date.getFullYear()) {
-            if (startIndex == 0) startIndex = i;
+            if (startIndex == -1) startIndex = i;
             endIndex = i;
         }
     }
-    return [startIndex, endIndex];
+    return [startIndex, endIndex + 1];
 }
