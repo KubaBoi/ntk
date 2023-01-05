@@ -1,6 +1,7 @@
 
 function drawChart(labels, values) {
-    new Chart("myChart", {
+    if (chart != null) chart.destroy();
+    chart = new Chart("myChart", {
         type: "line",
         data: {
             labels: labels,
