@@ -14,7 +14,7 @@ function drawChart(labels, values) {
         },
         options: {
             legend: {display: false},
-            responsive: true,
+            responsive: false,
             scales: {
                 yAxes: [{ticks: {min: 6, max:1000}}],
             }
