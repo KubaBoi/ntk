@@ -5,7 +5,7 @@ function day() {
     let startIndex = -1;
     let endIndex = 0;
     for (let i = 0; i < times.length; i++) {
-        var tempDate = new Date(times[i] * 1000);
+        var tempDate = getDate(times[i]);
         if (tempDate.getDate() == date.getDate() &&
             tempDate.getMonth() == date.getMonth() &&
             tempDate.getFullYear() == date.getFullYear()) {
@@ -22,7 +22,7 @@ function month() {
     let startIndex = 0;
     let endIndex = 0;
     for (let i = 0; i < times.length; i++) {
-        var tempDate = new Date(times[i] * 1000);
+        var tempDate = getDate(times[i]);
         if (tempDate.getMonth() == date.getMonth() &&
             tempDate.getFullYear() == date.getFullYear()) {
             if (startIndex == 0) startIndex = i;
@@ -38,7 +38,7 @@ function year() {
     let startIndex = 0;
     let endIndex = 0;
     for (let i = 0; i < times.length; i++) {
-        var tempDate = new Date(times[i] * 1000);
+        var tempDate = getDate(times[i]);
         if (tempDate.getFullYear() == date.getFullYear()) {
             if (startIndex == 0) startIndex = i;
             endIndex = i;

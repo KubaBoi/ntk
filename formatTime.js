@@ -1,6 +1,6 @@
 
 function formatUnix(unixTime) {
-    var date = new Date(unixTime * 1000);
+    var date = getDate(unixTime);
 
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
@@ -14,4 +14,8 @@ function formatUnix(unixTime) {
     var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
     return formattedDate + " " + formattedTime;
+}
+
+function getDate(unixTime) {
+    return new Date((parseInt(unixTime) + (7*3600)) * 1000);
 }
