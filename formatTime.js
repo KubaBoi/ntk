@@ -19,3 +19,7 @@ function formatUnix(unixTime) {
 function getDate(unixTime) {
     return new Date((parseInt(unixTime) + (7*3600)) * 1000);
 }
+
+function getNow() {
+    return getDate(Math.floor(Date.now() / 1000));
+}

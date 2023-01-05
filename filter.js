@@ -1,6 +1,6 @@
 
 function day() {
-    var date = new Date();
+    var date = getNow();
 
     let startIndex = -1;
     let endIndex = 0;
@@ -17,7 +17,7 @@ function day() {
 }
 
 function month() {
-    var date = new Date();
+    var date = getNow();
 
     let startIndex = 0;
     let endIndex = 0;
@@ -33,7 +33,7 @@ function month() {
 }
 
 function year() {
-    var date = new Date();
+    var date = getNow();
 
     let startIndex = 0;
     let endIndex = 0;
