@@ -3,6 +3,38 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <style>
+        body {
+            background-color: #242526;
+            color: #b0b3b8;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        canvas {
+            width:100%;
+            max-width:80%;
+            margin: auto;
+        }
+
+
+        .filter-switch label {
+            cursor: pointer;
+        }
+        .filter-switch input {
+            visibility: hidden;
+        }
+        .filter-switch-item input:checked + label {
+            color: #b0b3b8;
+            background-color: #5a2a75;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.5s;
+        }
+        .filter-switch-item input:not(:checked) + label {
+            --bg-opacity: 0;
+            box-shadow: none;
+            transition: 0.5s;
+        }
+    </style>
     </head>
     <body>
         <label>Aktuální počet lidí: </label>
@@ -12,17 +44,28 @@
         <label id="lastUpdate"></label>
 
         <br><br>
-
-        <input type="radio" id="all" name="time_epoch" onclick="change(0)">
-        <label for="all">Vše</label>
-        <input type="radio" id="day" name="time_epoch" onclick="change(1)">
-        <label for="day">Dnešek</label>
-        <input type="radio" id="month" name="time_epoch" onclick="change(2)">
-        <label for="month">Poslední měsíc</label>
-        <input type="radio" id="year" name="time_epoch" onclick="change(3)">
-        <label for="year">Poslední rok</label> 
+        <div class="filter-switch">
+            <span class="filter-switch-item">
+                <input type="radio" id="all" name="time_epoch" onclick="change(0)">
+                <label for="all">Vše</label>
+            </span>
+            <span class="filter-switch-item">
+                <input type="radio" id="day" name="time_epoch" onclick="change(1)">
+                <label for="day">Dnešek</label>
+            </span>
+            <span class="filter-switch-item">
+                <input type="radio" id="month" name="time_epoch" onclick="change(2)">
+                <label for="month">Poslední měsíc</label>
+            </span>
+            <span class="filter-switch-item">
+                <input type="radio" id="year" name="time_epoch" onclick="change(3)">
+                <label for="year">Poslední rok</label> 
+            </span>
+        </div>
+        <br>
         <hr>
-        <canvas id="myChart" style="width:100%;max-width:80%;max-height: 70%;"></canvas>
+
+        <canvas id="myChart"></canvas>
 
     </body>
 

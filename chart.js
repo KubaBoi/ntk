@@ -7,8 +7,8 @@ function drawChart(labels, values) {
             datasets: [{
                 fill: true,
                 lineTension: 0.2,
-                backgroundColor: "rgba(0,0,255,0.1)",
-                borderColor: "rgba(0,0,255,1)",
+                backgroundColor: "rgba(155,0,155,0.3)",
+                borderColor: "rgba(155,0,155,1)",
                 data: values
             }]
         },
