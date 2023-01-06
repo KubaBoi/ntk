@@ -29,7 +29,7 @@ def prepare_date() -> list:
     Gets now datetime and returns list with values 
     of datetime as strings
     """
-    date = datetime.datetime.now()
+    date = datetime.datetime.now() + datetime.timedelta(hours=1)
     return [
         str(date.year)[2:],
         add_zeros(date.month),
