@@ -74,7 +74,7 @@ def save(capture_count: int) -> None:
 
 while (True):
     print("Checking...")
-    if (datetime.datetime.now().minute % 10 == 0):
+    if (True or datetime.datetime.now().minute % 10 == 0):
         print("Pull...")
         subprocess.call(["git", "pull"])
         print("Scraping...")
