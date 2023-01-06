@@ -1,4 +1,9 @@
 
+/**
+ * Draw the chart
+ * @param {Array} labels - x axis
+ * @param {Array} values - y axis
+ */
 function drawChart(labels, values) {
     if (chart != null) chart.destroy();
     chart = new Chart("myChart", {

@@ -1,9 +1,22 @@
+/**
+ * Add zero before one character number and remove first two digits
+ * if number is length 4
+ * @param {integer} val 
+ * @returns {string}
+ */
 function addZeros(val) {
     val = val.toString()
     if (val.length == 1) return "0" + val;
+    if (val.length == 4) return val[2] + val[3];
     return val;
 }
 
+/**
+ * Find values from filter and creates conditions
+ * @param {string} id 
+ * @param {Array} conditions 
+ * @returns {Array}
+ */
 function getValue(id, conditions) {
     conditions.push([]);
     let index = conditions.length - 1;
@@ -13,20 +26,40 @@ function getValue(id, conditions) {
     }
     else return conditions;
 
+    // finding range
     let value2 = document.getElementById(id + "2").value;
     if (value2 != "") {
-        if (value2 < value) {
-            alert("Špatné rozmezí :(");
-        }
-        else {
-            for (let i = value+1; i <= value2; i++) {
-                conditions[index].push(addZeros(i));
+        let watchdog = 0;
+        value = parseInt(value);
+        value2 = parseInt(value2);
+        while (value != value2) {
+            switch (id) {
+                case "minuteInp":
+                    value = addMinute(value);
+                    break;
+                case "hourInp":
+                    value = addHour(value);
+                    break;
+                case "dayInp":
+                    value = addDay(value);
+                    break;
+                case "monthInp":
+                    value = addMonth(value);
+                    break;
+                default:
+                    if (value < value2) value++;
+                    else value--;
             }
+            conditions[index].push(addZeros(value));
+            if (watchdogCatch(watchdog++, getValue)) break;
         }
     }
     return conditions;
 }
 
+/**
+ * Do the chart update
+ */
 function change() {
     let conditions = [];
 
@@ -46,7 +79,12 @@ function change() {
     }
 }
 
+/**
+ * Setting default filter values
+ */
 function setDefault() {
+    document.getElementById("layoutsInp").value = "0";
+
     document.getElementById("yearInp").value = "";
     document.getElementById("yearInp2").value = "";
 
