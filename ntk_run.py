@@ -1,4 +1,6 @@
 import requests
+import time
+import subprocess
 import os
 import json
 import datetime
@@ -71,7 +73,16 @@ def save(capture_count: int) -> None:
     with open(data_path, "w", encoding="utf-8") as f:
         f.write(f"var data = {data}")
 
-count = get_count(get_soup())
-save(count)
+
+while (True):
+    if (datetime.datetime.now().minute % 10 == 0):
+        subprocess.call(["git", "pull"])
+        count = get_count(get_soup())
+        save(count)
+        subprocess.call(["git", "add", "*"])
+        subprocess.call(["git", "commit", "-m Auto Update"])
+        subprocess.call(["git", "push"])
+        time.sleep(300)
+    time.sleep(20)
 
 
