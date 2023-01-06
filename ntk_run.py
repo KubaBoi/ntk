@@ -50,7 +50,6 @@ def add_to_json(data, keys, step, value):
         return data
     else:
         data[key].append(value)
-        print(data)
         return data
 
 
@@ -75,14 +74,21 @@ def save(capture_count: int) -> None:
 
 
 while (True):
+    print("Checking...")
     if (datetime.datetime.now().minute % 10 == 0):
+        print("Pull...")
         subprocess.call(["git", "pull"])
+        print("Scraping...")
         count = get_count(get_soup())
         save(count)
+        print("Add...")
         subprocess.call(["git", "add", "*"])
-        subprocess.call(["git", "commit", "-m Auto Update"])
+        print("Commit...")
+        subprocess.call(["git", "commit", "-m 'Auto Update'"])
+        print("Push...")
         subprocess.call(["git", "push"])
-        time.sleep(300)
+        print("Waiting 3 minutes...")
+        time.sleep(180)
     time.sleep(20)
 
 
