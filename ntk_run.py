@@ -85,7 +85,7 @@ while (True):
         print("Commit...")
         subprocess.call(["git", "commit", "-m 'Auto Update'"])
         print("Push...")
-        subprocess.call(["git", "push", "< ./token"])
+        subprocess.call(["git", "push", "< token"])
         print("Waiting 3 minutes...")
         time.sleep(180)
     time.sleep(20)
