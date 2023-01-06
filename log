@@ -6,3 +6,10 @@ fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
+[main 9cab359]  'Auto Update'
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
