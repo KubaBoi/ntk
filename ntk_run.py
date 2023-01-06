@@ -74,20 +74,15 @@ def save(capture_count: int) -> None:
         f.write(f"var data = {data}")
 
 
-subprocess.call(["git", "pull"])
-count = get_count(get_soup())
-save(count)
-subprocess.call(["git", "add", "*"])
-subprocess.call(["git", "commit", "-m Auto Update"])
-subprocess.call(["git", "push"])
-
-while (False):
-    if (datetime.datetime.now().minute % 10 != 0):
-        g.pull()
+while (True):
+    if (datetime.datetime.now().minute % 10 == 0):
+        subprocess.call(["git", "pull"])
         count = get_count(get_soup())
         save(count)
-        g.commit()
-        g.push()
+        subprocess.call(["git", "add", "*"])
+        subprocess.call(["git", "commit", "-m Auto Update"])
+        subprocess.call(["git", "push"])
+        time.sleep(300)
     time.sleep(20)
 
 
