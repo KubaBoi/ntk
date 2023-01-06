@@ -72,7 +72,6 @@ def save(capture_count: int) -> None:
     with open(data_path, "w", encoding="utf-8") as f:
         f.write(f"var data = {data}")
 
-
 while (True):
     print("Checking...")
     if (datetime.datetime.now().minute % 10 == 0):
@@ -86,7 +85,8 @@ while (True):
         print("Commit...")
         subprocess.call(["git", "commit", "-m 'Auto Update'"])
         print("Push...")
-        subprocess.call(["git", "push"])
+        with open("token", "r", encoding="utf-8") as f:
+            subprocess.call(["git", "push"], stdin=f)
         print("Waiting 3 minutes...")
         time.sleep(180)
     time.sleep(20)
