@@ -83,19 +83,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
     <script>
-        var times = Object.keys(data);
-        var values = Object.values(data);
+        /*Find last update and return [value, date->need reworkTime]*/
+        function findLast(obj, date="") {
+            let keys = Object.keys(obj);
+            let lastKey = keys[keys.length-1];
+            let nextObj = obj[lastKey];
+            date = lastKey + "." + date;
+            if (Array.isArray(nextObj)) {
+                let index = nextObj.length - 1;
+                let indexStr = index * 10;
+                if (indexStr == 0) indexStr = "00";
+                else indexStr = indexStr.toString();
+                return [nextObj[index], indexStr + "." + date];
+            }
+            return findLast(nextObj, date);
+        }
+        var last = findLast(data);
 
         var label = document.getElementById("actCount");
-        label.innerHTML = data[times[times.length - 1]];
+        label.innerHTML = last[0];
 
         var label2 = document.getElementById("lastUpdate");
-        label2.innerHTML = formatUnix(times[times.length - 1]);
-
-        var formattedTimes = [];
-        for (let i = 0; i < times.length; i++) {
-            formattedTimes.push(formatUnix(times[i]));
-        }
+        label2.innerHTML = reworkTime(last[1]);
 
         const chart = null;
 
@@ -120,7 +129,59 @@
 
             drawChart(sliceTimes, sliceValues);
         }
-        change();
+        //change();
+
+        /*
+        Create two lists. First is list of all values and
+        second is list of all times
+        */
+        function getLists(obj, step=0, date="") {
+            let values = [];
+            let times = [];
+            let keys = Object.keys(obj);
+            for (let i = 0; i < keys.length; i++) {
+                newDate = keys[i] + "." + date;
+                let nextObj = obj[keys[i]];
+                if (Array.isArray(nextObj)) {
+                    values = values.concat(nextObj);
+                    newTimes = []
+                    for (let o = 0; o < nextObj.length; o++) {
+                        let minutes = (o * 10).toString();
+                        if (o == 0) minutes += "0";
+                        newTimes.push(minutes + "." + newDate);
+                    }
+                    times = times.concat(newTimes);
+                } 
+                else {
+                    let vals = values.concat(getLists(nextObj, step+1, newDate));
+                    values = values.concat(vals[0]);
+                    times = times.concat(vals[1]);
+                }
+            }
+            return [values, times];
+        }
+
+        function getObj(parent, name) {
+            return parent[name];
+        }
+
+        /*Reformat list of times from getLists     */
+        function reworkTimes(times) {
+            for (let i = 0; i < times.length; i++) {
+                times[i] = reworkTime(times[i]);
+            }
+            return times;
+        }
+
+        /*Reformat time from getLists*/
+        function reworkTime(time) {
+            let v = time.split(".");
+            return `${v[2]}.${v[3]}.${v[4]} ${v[1]}:${v[0]}`;
+        }
+
+        let rets = getLists(data);
+        rets[1] = reworkTimes(rets[1]);
+        drawChart(rets[1], rets[0]);
         
     </script>
 </html>
