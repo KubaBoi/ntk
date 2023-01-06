@@ -1,9 +1,18 @@
-/*
-Create two lists. First is list of all values and
-second is list of all times
-
-conditions = [["years"], ["months"], ["days"], ["hours"], ["minutes"]]
-*/
+/**
+ * Create two lists. First is list of all values and
+ * second is list of all times
+ *
+ * conditions = [["years"], ["months"], ["days"], ["hours"], ["minutes"]]
+ *
+ * 
+ * @param {object} obj 
+ * @param {integer} step 
+ * @param {string} date 
+ * @param {Array} conditions 
+ * @returns {Array} - two lists 
+ *      [0] - values (y axis)
+ *      [1] - labels (x axis)
+ */
 function getLists(obj, step=0, date="", conditions=[[],[],[],[],[]]) {
     let values = [];
     let times = [];
@@ -44,7 +53,11 @@ function getLists(obj, step=0, date="", conditions=[[],[],[],[],[]]) {
     return [values, times];
 }
 
-/*Filter values*/
+/**
+ * Filter values
+ * @param {object} obj
+ * @returns {Array} - same as getLists()
+ */
 function filterLists(obj) {
     let strDate = "";
     let step = 0

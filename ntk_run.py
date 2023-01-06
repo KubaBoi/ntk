@@ -22,18 +22,35 @@ def add_zeros(val: int) -> str:
     val = str(val)
     return (2 - len(val))*"0" + val
 
-def prepare_date() -> dict:
+def prepare_date() -> list:
     """
-    Gets now datetime and returns dict with values 
+    Gets now datetime and returns list with values 
     of datetime as strings
     """
     date = datetime.datetime.now()
-    return {
-        "Y": str(date.year)[2:],
-        "M": add_zeros(date.month),
-        "D": add_zeros(date.day),
-        "H": add_zeros(date.hour)
-    }
+    return [
+        str(date.year)[2:],
+        add_zeros(date.month),
+        add_zeros(date.day),
+        add_zeros(date.hour)
+    ]
+
+def add_to_json(data, keys, step, value):
+    """Prepare json data"""
+    key = keys[step]
+    if (key not in data):
+        if (step < 3):
+            data[key] = {}
+        else:
+            data[key] = []
+    if (step < 3):
+        data[key] = add_to_json(data[key], keys, step+1, value)
+        return data
+    else:
+        data[key].append(value)
+        print(data)
+        return data
+
 
 def save(capture_count: int) -> None:
     """
@@ -48,17 +65,7 @@ def save(capture_count: int) -> None:
         data = json.loads(f.read().replace("var data = ", ""))
     
     date = prepare_date()
-
-    if (date["Y"] not in data):
-        data[date["Y"]] = {}
-    if (date["M"] not in data[date["Y"]]):
-        data[date["Y"]][date["M"]] = {}
-    if (date["D"] not in data[date["Y"]][date["M"]]):
-        data[date["Y"]][date["M"]][date["D"]] = {}
-    if (date["H"] not in data[date["Y"]][date["M"]][date["D"]]):
-        data[date["Y"]][date["M"]][date["D"]][date["H"]] = []
-    
-    data[date["Y"]][date["M"]][date["D"]][date["H"]].append(capture_count)
+    data = add_to_json(data, date, 0, capture_count)
 
     data = str(data).replace('\'', '\"')
     with open(data_path, "w", encoding="utf-8") as f:

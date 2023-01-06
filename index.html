@@ -42,6 +42,10 @@
         <label id="lastUpdate"></label>
 
         <hr>
+        <label>Návrhy:</label>
+        <select id="layoutsInp" onchange="changeLayout()">
+        </select>
+        <br><br>
         <input id="yearInp" placeholder="Rok" type="number" min="23">
         <input id="yearInp2" placeholder="Rok konec" type="number" min="23">
         <br>
@@ -69,6 +73,8 @@
     <script src="./formatTime.js"></script>
     <script src="./filter.js"></script>
     <script src="./update.js"></script>
+    <script src="./layouts.js"></script>
+    <script src="./watchdog.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
@@ -98,6 +104,7 @@
 
         const chart = null;
 
+        buildLayoutSelect();
         setDefault();
         change();
         
