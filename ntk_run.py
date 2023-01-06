@@ -68,24 +68,24 @@ def save(capture_count: int) -> None:
     date = prepare_date()
     data = add_to_json(data, date, 0, capture_count)
 
-    data = str(data).replace('\'', '\"')
+    data = json.dumps(data, sort_keys=True).replace('\'', '\"')
     with open(data_path, "w", encoding="utf-8") as f:
         f.write(f"var data = {data}")
 
 while (True):
     print("Checking...")
-    if (datetime.datetime.now().minute % 10 == 0):
+    if (True or datetime.datetime.now().minute % 10 == 0):
         print("Pull...")
         subprocess.call(["git", "pull"])
         print("Scraping...")
         count = get_count(get_soup())
         save(count)
         print("Add...")
-        subprocess.call(["git", "add", "*"])
+        #subprocess.call(["git", "add", "*"])
         print("Commit...")
-        subprocess.call(["git", "commit", "-m 'Auto Update'"])
+        #subprocess.call(["git", "commit", "-m 'Auto Update'"])
         print("Push...")
-        subprocess.call(["git", "push"])
+        #subprocess.call(["git", "push"])
         print("Waiting 3 minutes...")
         time.sleep(180)
     time.sleep(20)
