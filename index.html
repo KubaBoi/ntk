@@ -17,23 +17,19 @@
             margin: auto;
         }
 
-
-        .filter-switch label {
-            cursor: pointer;
-        }
-        .filter-switch input {
-            visibility: hidden;
-        }
-        .filter-switch-item input:checked + label {
+        button {
             color: #b0b3b8;
             background-color: #5a2a75;
             padding: 10px;
             border-radius: 5px;
+            border-width: 0;
             transition: 0.5s;
+            width: 100%;
         }
-        .filter-switch-item input:not(:checked) + label {
+        button:hover {
             --bg-opacity: 0;
             box-shadow: none;
+            background-color: #242526;
             transition: 0.5s;
         }
     </style>
@@ -45,30 +41,23 @@
         <label>Poslední aktualizace: </label>
         <label id="lastUpdate"></label>
 
-        <br><br>
-        <div class="filter-switch">
-            <span class="filter-switch-item">
-                <input type="radio" id="all" name="time_epoch" onclick="change(0)">
-                <label for="all">Vše</label>
-            </span>
-            <span class="filter-switch-item">
-                <input type="radio" id="day" name="time_epoch" onclick="change(1)">
-                <label for="day">Dnešek</label>
-            </span>
-            <span class="filter-switch-item">
-                <input type="radio" id="week" name="time_epoch" onclick="change(2)">
-                <label for="week">Tento týden</label>
-            </span>
-            <span class="filter-switch-item">
-                <input type="radio" id="month" name="time_epoch" onclick="change(3)">
-                <label for="month">Tento měsíc</label>
-            </span>
-            <span class="filter-switch-item">
-                <input type="radio" id="year" name="time_epoch" onclick="change(4)">
-                <label for="year">Tento rok</label> 
-            </span>
-        </div>
+        <hr>
+        <input id="yearInp" placeholder="Rok" type="number" min="23">
+        <input id="yearInp2" placeholder="Rok konec" type="number" min="23">
         <br>
+        <input id="monthInp" placeholder="Měsíc" type="number" min="1" max="12">
+        <input id="monthInp2" placeholder="Měsíc konec" type="number" min="1" max="12">
+        <br>
+        <input id="dayInp" placeholder="Den" type="number" min="1" max="31">
+        <input id="dayInp2" placeholder="Den konec" type="number" min="1" max="31">
+        <br>
+        <input id="hourInp" placeholder="Hodina" type="number" min="0" max="23">
+        <input id="hourInp2" placeholder="Hodina konec" type="number" min="0" max="23">
+        <br>
+        <input id="minuteInp" placeholder="Minuta" type="number" min="0" max="50" step="10">
+        <input id="minuteInp2" placeholder="Minuta konec" type="number" min="0" max="50" step="10">
+        <br><br>
+        <button onclick="change()">Zobrazit</button>
         <hr>
 
         <canvas id="myChart"></canvas>
@@ -79,6 +68,7 @@
     <script src="./chart.js"></script>
     <script src="./formatTime.js"></script>
     <script src="./filter.js"></script>
+    <script src="./update.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
@@ -108,80 +98,8 @@
 
         const chart = null;
 
-        function change(value=0) {
-            let indices = [0, formattedTimes.length];
-            switch (value) {
-                case 1:
-                    indices = day();
-                    break;
-                case 2:
-                    indices = week();
-                case 3:
-                    indices = month();
-                    break;
-                case 4:
-                    indices = year();
-                    break;
-            }
-            
-            sliceTimes = formattedTimes.slice(indices[0], indices[1]);
-            sliceValues = values.slice(indices[0], indices[1]);
-
-            drawChart(sliceTimes, sliceValues);
-        }
-        //change();
-
-        /*
-        Create two lists. First is list of all values and
-        second is list of all times
-        */
-        function getLists(obj, step=0, date="") {
-            let values = [];
-            let times = [];
-            let keys = Object.keys(obj);
-            for (let i = 0; i < keys.length; i++) {
-                newDate = keys[i] + "." + date;
-                let nextObj = obj[keys[i]];
-                if (Array.isArray(nextObj)) {
-                    values = values.concat(nextObj);
-                    newTimes = []
-                    for (let o = 0; o < nextObj.length; o++) {
-                        let minutes = (o * 10).toString();
-                        if (o == 0) minutes += "0";
-                        newTimes.push(minutes + "." + newDate);
-                    }
-                    times = times.concat(newTimes);
-                } 
-                else {
-                    let vals = values.concat(getLists(nextObj, step+1, newDate));
-                    values = values.concat(vals[0]);
-                    times = times.concat(vals[1]);
-                }
-            }
-            return [values, times];
-        }
-
-        function getObj(parent, name) {
-            return parent[name];
-        }
-
-        /*Reformat list of times from getLists     */
-        function reworkTimes(times) {
-            for (let i = 0; i < times.length; i++) {
-                times[i] = reworkTime(times[i]);
-            }
-            return times;
-        }
-
-        /*Reformat time from getLists*/
-        function reworkTime(time) {
-            let v = time.split(".");
-            return `${v[2]}.${v[3]}.${v[4]} ${v[1]}:${v[0]}`;
-        }
-
-        let rets = getLists(data);
-        rets[1] = reworkTimes(rets[1]);
-        drawChart(rets[1], rets[0]);
+        setDefault();
+        change();
         
     </script>
 </html>

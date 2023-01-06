@@ -1,25 +1,13 @@
-
-function formatUnix(unixTime) {
-    var date = getDate(unixTime);
-
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-
-    var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-    var seconds = "0" + date.getSeconds();
-
-    var formattedDate = day + "." + month + "." + year;
-    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-    return formattedDate + " " + formattedTime;
+/*Reformat list of times from getLists*/
+function reworkTimes(times) {
+    for (let i = 0; i < times.length; i++) {
+        times[i] = reworkTime(times[i]);
+    }
+    return times;
 }
 
-function getDate(unixTime) {
-    return new Date((parseInt(unixTime) + (0*3600)) * 1000);
-}
-
-function getNow() {
-    return getDate(Math.floor(Date.now() / 1000));
+/*Reformat time from getLists*/
+function reworkTime(time) {
+    let v = time.split(".");
+    return `${v[2]}.${v[3]}.${v[4]} ${v[1]}:${v[0]}`;
 }
