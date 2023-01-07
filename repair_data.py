@@ -15,14 +15,14 @@ class repair_data:
             if (isinstance(val, list)):
                 if (date[3] == key):
                     continue
-                
+
                 if (len(val) == 0):
                     last_value = 0
                 else:
                     last_value = val[-1]
                 for i in range(len(val), 6):
                     val.append(last_value)
-                data[key] = val
+                data[key] = val[:6]
             else:
                 data[key] = repair_data.repair(val)
         return data
