@@ -69,7 +69,7 @@ def save(capture_count: int) -> None:
     
     date = prepare_date()
     data = add_to_json(data, date, 0, capture_count)
-    data = repair_data.repair(data)
+    data = repair_data.repair(data, date)
 
     data = json.dumps(data, sort_keys=True).replace('\'', '\"')
     with open(data_path, "w", encoding="utf-8") as f:
@@ -79,7 +79,7 @@ while (True):
     print("Checking...")
     if (datetime.datetime.now().minute % 10 == 0):
         print("Pull...")
-        #subprocess.call(["git", "pull"])
+        subprocess.call(["git", "pull"])
         print("Scraping...")
         count = get_count(get_soup())
         save(count)
