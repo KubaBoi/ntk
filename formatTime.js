@@ -60,7 +60,7 @@ function addHour(val, hour=1) {
  */
 function addDay(val, day=1) {
     if (Math.abs(day) > 31) return val;
-    val += hour;
+    val += day;
     if (val > 31) return val - 31;
     if (val <= 0) return val + 31;
     return val;
