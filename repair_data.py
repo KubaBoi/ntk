@@ -8,11 +8,14 @@ class repair_data:
     """
 
     @staticmethod
-    def repair(data: dict) -> dict:
+    def repair(data: dict, date: list) -> dict:
         """Repairs data"""
         for key in data.keys():
             val = data[key]
             if (isinstance(val, list)):
+                if (date[3] == key):
+                    continue
+                
                 if (len(val) == 0):
                     last_value = 0
                 else:
