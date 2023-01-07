@@ -6,6 +6,8 @@ import json
 import datetime
 from bs4 import BeautifulSoup
 
+from repair_data import repair_data
+
 def get_soup() -> BeautifulSoup:
     """Get html from ntk website. If request fail `None` is returned"""
     res = requests.get("https://www.techlib.cz/cs/", timeout=60)
@@ -67,6 +69,7 @@ def save(capture_count: int) -> None:
     
     date = prepare_date()
     data = add_to_json(data, date, 0, capture_count)
+    data = repair_data.repair(data)
 
     data = json.dumps(data, sort_keys=True).replace('\'', '\"')
     with open(data_path, "w", encoding="utf-8") as f:
@@ -76,7 +79,7 @@ while (True):
     print("Checking...")
     if (datetime.datetime.now().minute % 10 == 0):
         print("Pull...")
-        subprocess.call(["git", "pull"])
+        #subprocess.call(["git", "pull"])
         print("Scraping...")
         count = get_count(get_soup())
         save(count)

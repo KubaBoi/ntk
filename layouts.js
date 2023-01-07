@@ -33,11 +33,22 @@ function changeLayout() {
     
     document.getElementById("minuteInp").value = layout.values.minute;
     document.getElementById("minuteInp2").value = layout.values.minute2;
+
+    change();
 }
 
 var today = new Date();
+
+var hoursBack5 = new Date();
+hoursBack5.setHours(hoursBack5.getHours() - 5);
+var hoursBack10 = new Date();
+hoursBack10.setHours(hoursBack10.getHours() - 10);
 var yesterday = new Date();
 yesterday.setDate(yesterday.getDate()-1);
+var daysBack7 = new Date();
+daysBack7.setDate(daysBack7.getDate() - 7);
+var daysBack30 = new Date();
+daysBack30.setDate(daysBack30.getDate() - 30);
 
 
 var layouts = [
@@ -89,14 +100,14 @@ var layouts = [
     {
         "name": "Posledních 5 hodin",
         "values": {
-            "year": "",
-            "year2": "",
-            "month": "",
-            "month2": "",
-            "day": addZeros(today.getDate()),
-            "day2": "",
-            "hour": "",
-            "hour2": "",
+            "year": addZeros(hoursBack5.getFullYear()),
+            "year2": addZeros(today.getFullYear()),
+            "month": addZeros(hoursBack5.getMonth() + 1),
+            "month2": addZeros(today.getMonth() + 1),
+            "day": addZeros(hoursBack5.getDate()),
+            "day2": addZeros(today.getDate()),
+            "hour": addZeros(hoursBack5.getHours()),
+            "hour2": addZeros(today.getHours()),
             "minute": "",
             "minute2": ""
         }
@@ -104,14 +115,14 @@ var layouts = [
     {
         "name": "Posledních 10 hodin",
         "values": {
-            "year": (today.getFullYear() - 2000).toString(),
-            "year2": "",
-            "month": addZeros(today.getMonth()),
-            "month2": "",
-            "day": addZeros(today.getDate()),
-            "day2": "",
-            "hour": "",
-            "hour2": "",
+            "year": addZeros(hoursBack10.getFullYear()),
+            "year2": addZeros(today.getFullYear()),
+            "month": addZeros(hoursBack10.getMonth() + 1),
+            "month2": addZeros(today.getMonth() + 1),
+            "day": addZeros(hoursBack10.getDate()),
+            "day2": addZeros(today.getDate()),
+            "hour": addZeros(hoursBack10.getHours()),
+            "hour2": addZeros(today.getHours()),
             "minute": "",
             "minute2": ""
         }
@@ -119,12 +130,12 @@ var layouts = [
     {
         "name": "Posledních 7 dní",
         "values": {
-            "year": (today.getFullYear() - 2000).toString(),
-            "year2": "",
-            "month": addZeros(today.getMonth()),
-            "month2": "",
-            "day": addZeros(today.getDate()),
-            "day2": "",
+            "year": addZeros(daysBack7.getFullYear()),
+            "year2": addZeros(today.getFullYear()),
+            "month": addZeros(daysBack7.getMonth() + 1),
+            "month2": addZeros(today.getMonth() + 1),
+            "day": addZeros(daysBack7.getDate()),
+            "day2": addZeros(today.getDate()),
             "hour": "",
             "hour2": "",
             "minute": "",
@@ -134,12 +145,12 @@ var layouts = [
     {
         "name": "Posledních 30 dní",
         "values": {
-            "year": (today.getFullYear() - 2000).toString(),
-            "year2": "",
-            "month": addZeros(today.getMonth()),
-            "month2": "",
-            "day": addZeros(today.getDate()),
-            "day2": "",
+            "year": addZeros(daysBack30.getFullYear()),
+            "year2": addZeros(today.getFullYear()),
+            "month": addZeros(daysBack30.getMonth() + 1),
+            "month2": addZeros(today.getMonth() + 1),
+            "day": addZeros(daysBack30.getDate()),
+            "day2": addZeros(today.getDate()),
             "hour": "",
             "hour2": "",
             "minute": "",
