@@ -16,7 +16,7 @@
 function getLists(obj, step=0, date="", conditions=[[],[],[],[],[]]) {
     let values = [];
     let times = [];
-    let keys = Object.keys(obj);
+    let keys = sortKeys(obj);
     for (let i = 0; i < keys.length; i++) {
         if (conditions[step].length > 0) {
             if (!conditions[step].includes(keys[i])) {
@@ -27,8 +27,8 @@ function getLists(obj, step=0, date="", conditions=[[],[],[],[],[]]) {
         newDate = keys[i] + "." + date;
         let nextObj = obj[keys[i]];
         if (Array.isArray(nextObj)) {
-            newValues = [];
-            newTimes = [];
+            let newValues = [];
+            let newTimes = [];
             for (let o = 0; o < nextObj.length; o++) {
                 let minutes = (o * 10).toString();
                 if (o == 0) minutes += "0";
