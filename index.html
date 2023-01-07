@@ -75,25 +75,11 @@
     <script src="./update.js"></script>
     <script src="./layouts.js"></script>
     <script src="./watchdog.js"></script>
+    <script src="./sorter.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
     <script>
-        /*Find last update and return [value, date->need reworkTime]*/
-        function findLast(obj, date="") {
-            let keys = Object.keys(obj);
-            let lastKey = keys[keys.length-1];
-            let nextObj = obj[lastKey];
-            date = lastKey + "." + date;
-            if (Array.isArray(nextObj)) {
-                let index = nextObj.length - 1;
-                let indexStr = index * 10;
-                if (indexStr == 0) indexStr = "00";
-                else indexStr = indexStr.toString();
-                return [nextObj[index], indexStr + "." + date];
-            }
-            return findLast(nextObj, date);
-        }
         var last = findLast(data);
 
         var label = document.getElementById("actCount");
