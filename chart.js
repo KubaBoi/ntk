@@ -17,8 +17,8 @@ function drawChart(labels) {
         datasets.push({
             fill: true,
             linkTenstion: 0.2,
-            backgroundColor: createRgba(COLORS[3], true),
-            borderColor: createRgba(COLORS[3]),
+            backgroundColor: createRgba(COLORS[i-1], true),
+            borderColor: createRgba(COLORS[i-1]),
             data: arguments[i]
         });
     }
