@@ -10,6 +10,7 @@ function buildLayoutSelect() {
         option.innerHTML = layouts[i].name;
         select.appendChild(option);
     }
+    changeLayout();
 }
 
 /**
@@ -52,21 +53,6 @@ daysBack30.setDate(daysBack30.getDate() - 30);
 
 
 var layouts = [
-    {
-        "name": "Žádný",
-        "values": {
-            "year": "",
-            "year2": "",
-            "month": "",
-            "month2": "",
-            "day": "",
-            "day2": "",
-            "hour": "",
-            "hour2": "",
-            "minute": "",
-            "minute2": ""
-        }
-    },
     {
         "name": "Dnes",
         "values": {
@@ -151,6 +137,21 @@ var layouts = [
             "month2": addZeros(today.getMonth() + 1),
             "day": addZeros(daysBack30.getDate()),
             "day2": addZeros(today.getDate()),
+            "hour": "",
+            "hour2": "",
+            "minute": "",
+            "minute2": ""
+        }
+    },
+    {
+        "name": "Žádný",
+        "values": {
+            "year": "",
+            "year2": "",
+            "month": "",
+            "month2": "",
+            "day": "",
+            "day2": "",
             "hour": "",
             "hour2": "",
             "minute": "",
