@@ -31,7 +31,7 @@ def prepare_date() -> list:
     Gets now datetime and returns list with values 
     of datetime as strings
     """
-    date = datetime.datetime.now()
+    date = datetime.datetime.now() + datetime.timedelta(hours=1)
     return [
         str(date.year)[2:],
         add_zeros(date.month),
@@ -77,18 +77,18 @@ def save(capture_count: int) -> None:
 
 while (True):
     print("Checking...")
-    if (True or datetime.datetime.now().minute % 10 == 0):
+    if (datetime.datetime.now().minute % 10 == 0):
         print("Pull...")
         #subprocess.call(["git", "pull"])
         print("Scraping...")
         count = get_count(get_soup())
         save(count)
         print("Add...")
-        #subprocess.call(["git", "add", "*"])
+        subprocess.call(["git", "add", "*"])
         print("Commit...")
-        #subprocess.call(["git", "commit", "-m 'Auto Update'"])
+        subprocess.call(["git", "commit", "-m 'Auto Update'"])
         print("Push...")
-        #subprocess.call(["git", "push"])
+        subprocess.call(["git", "push"])
         print("Waiting 3 minutes...")
         time.sleep(180)
     time.sleep(20)
