@@ -79,7 +79,7 @@ while (True):
     print("Checking...")
     if (datetime.datetime.now().minute % 10 == 0):
         print("Pull...")
-        #subprocess.call(["git", "pull"])
+        subprocess.call(["git", "pull"])
         print("Scraping...")
         count = get_count(get_soup())
         save(count)
