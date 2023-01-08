@@ -1,6 +1,6 @@
 function reloadData() {
     let now = new Date();
-    if ((now.getMinutes() - 1) % 10 == 0) {
+    if ((now.getMinutes() - 2) % 10 == 0) {
         rel();
     }
 }
