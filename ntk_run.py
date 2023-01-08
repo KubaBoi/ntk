@@ -89,7 +89,7 @@ def isDebug():
     If script is runned not-on my server, than it would return True.
     """
     mac = str(uuid.getnode())
-    mac_hash = 619
+    mac_hash = 691
     return mac_hash != hash(mac)
 
 DEBUG = isDebug()
