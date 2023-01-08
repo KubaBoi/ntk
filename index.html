@@ -3,15 +3,22 @@
         <meta charset='utf-8'>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./style.css">
+
+        <script src="./data.js" id="scriptId"></script>
     </head>
     <body>
-        <label>Aktuální počet lidí: </label>
+        <h2>Aktuální počet lidí:
         <label id="actCount"></label>
+        </h2>
         <br>
         <label>Poslední aktualizace: </label>
         <label id="lastUpdate"></label>
         <br>
-        <a href="info.html">Info</a>
+        <label>Interval automatické aktualizace: `(minuta + 1) % 10 == 0`</label>
+        <br><br>
+        <button onclick="window.locbuttontion = 'info.html'">Info</a>
+        <button onclick="rel()">aktualizovat</button>
+        <br>
 
         <hr>
         <label>Návrhy:</label>
@@ -41,8 +48,9 @@
         <h3>Derivace křivky:</h3>
         <canvas id="derivativeChart"></canvas>
     </body>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-    <script src="./data.js"></script>
     <script src="./chart.js"></script>
     <script src="./formatTime.js"></script>
     <script src="./filter.js"></script>
@@ -50,18 +58,10 @@
     <script src="./layouts.js"></script>
     <script src="./watchdog.js"></script>
     <script src="./sorter.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="./reload.js"></script>
 
     <script>
-        var last = findLast(data);
-
-        var label = document.getElementById("actCount");
-        label.innerHTML = last[0];
-
-        var label2 = document.getElementById("lastUpdate");
-        label2.innerHTML = reworkTime(last[1]);
-
+        setActualization();
         setDefault();
         buildLayoutSelect();
         change();
