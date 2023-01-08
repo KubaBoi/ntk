@@ -4,15 +4,16 @@ import subprocess
 import os
 import json
 import datetime
+import uuid
 from bs4 import BeautifulSoup
 
 from repair_data import repair_data
 
 def get_soup() -> BeautifulSoup:
-    """Get html from ntk website. If request fail `None` is returned"""
+    """Get html from ntk website. If request fail exception raised"""
     res = requests.get("https://www.techlib.cz/cs/", timeout=60)
     if (res.status_code != 200):
-        return None
+        raise Exception("Error while request.", res.status_code)
     return BeautifulSoup(res.content, "html.parser")
 
 def get_count(soup: BeautifulSoup) -> int:
@@ -75,21 +76,48 @@ def save(capture_count: int) -> None:
     with open(data_path, "w", encoding="utf-8") as f:
         f.write(f"var data = {data}")
 
+def hash(s):
+    """Return hash of string"""
+    h = 0
+    for i in s:
+        h += ord(i)
+    return h
+
+def isDebug():
+    """
+    Compare device mac with mac-hash of my personal server.
+    If script is runned not-on my server, than it would return True.
+    """
+    mac = str(uuid.getnode())
+    mac_hash = 619
+    return mac_hash != hash(mac)
+
+DEBUG = isDebug()
+if (DEBUG):
+    print("Debug mode")
+
 while (True):
     print("Checking...")
-    if (datetime.datetime.now().minute % 10 == 0):
-        print("Pull...")
-        subprocess.call(["git", "pull"])
-        print("Scraping...")
-        count = get_count(get_soup())
-        save(count)
-        print("Add...")
-        subprocess.call(["git", "add", "*"])
-        print("Commit...")
-        subprocess.call(["git", "commit", "-m 'Auto Update'"])
-        print("Push...")
-        subprocess.call(["git", "push"])
-        print("Waiting 3 minutes...")
+    if (DEBUG or datetime.datetime.now().minute % 10 == 0):
+        try:
+            print("Pull...")
+            if (not DEBUG): subprocess.call(["git", "pull"])
+            print("Scraping...")
+            try:
+                count = get_count(get_soup())
+            except Exception as e:
+                print("getCount error:", e)
+                count = 0
+            save(count)
+            print("Add...")
+            if (not DEBUG): subprocess.call(["git", "add", "*"])
+            print("Commit...")
+            if (not DEBUG): subprocess.call(["git", "commit", "-m 'Auto Update'"])
+            print("Push...")
+            if (not DEBUG): subprocess.call(["git", "push"])
+            print("Waiting 3 minutes...")
+        except Exception as e:
+            print(e)
         time.sleep(180)
     time.sleep(20)
 
