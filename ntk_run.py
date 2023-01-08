@@ -119,6 +119,6 @@ while (True):
         except Exception as e:
             print(e)
         time.sleep(180)
-    time.sleep(20)
+    time.sleep(2)
 
 
