@@ -57,8 +57,9 @@ function drawChart(labels) {
 
     let datasets = [];
     let derivatives = [];
-    let mn = -10;
-    let mx = 10;
+    let derivativesSecond = [];
+    let mn, mn2 = -10;
+    let mx, mx2 = 10;
     for (let i = 1; i < arguments.length; i++) {
         datasets.push({
             fill: true,
@@ -71,6 +72,11 @@ function drawChart(labels) {
         derivatives.push(ret[0]);
         if (ret[1] < mn) mn = ret[1];
         if (ret[2] > mx) mx = ret[2];
+
+        ret = createDerivatives([...ret[0].data]);
+        derivativesSecond.push(ret[0]);
+        if (ret[1] < mn2) mn2 = ret[1];
+        if (ret[2] > mx2) mx2 = ret[2];
     }
 
     peopleChart = new Chart("peopleCountChart", {
@@ -99,6 +105,21 @@ function drawChart(labels) {
             responsive: true,
             scales: {
                 yAxes: [{ticks: {min: mn, max:mx}}],
+            }
+        }
+    });
+
+    derivativeChart = new Chart("derivativeSecondChart", {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: derivativesSecond
+        },
+        options: {
+            legend: {display: false},
+            responsive: true,
+            scales: {
+                yAxes: [{ticks: {min: mn2, max:mx2}}],
             }
         }
     });
