@@ -24,5 +24,5 @@ class repair_data:
                     val.append(last_value)
                 data[key] = val[:6]
             else:
-                data[key] = repair_data.repair(val)
+                data[key] = repair_data.repair(val, date)
         return data
