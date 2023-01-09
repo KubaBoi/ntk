@@ -2,7 +2,7 @@
     <head>
         <meta charset='utf-8'>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="./css/style.css">
     </head>
     <body>
         <h2>Aktuální počet lidí:
@@ -12,7 +12,7 @@
         <label>Poslední aktualizace: </label>
         <label id="lastUpdate"></label>
         <br>
-        <label>Interval automatické aktualizace: `(minuta - 2) % 10 == 0`</label>
+        <label>Interval automatické aktualizace: (minuta - 2) % 10 == 0</label>
         <br><br>
         <button onclick="window.location = 'info.html'">Info</a>
         <button onclick="reloadData(true)">Aktualizovat</button>
@@ -54,17 +54,17 @@
     <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/communication.js"></script>
     <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/time.js"></script>
 
-    <script src="./chart.js"></script>
-    <script src="./formatTime.js"></script>
-    <script src="./filter.js"></script>
-    <script src="./update.js"></script>
-    <script src="./layouts.js"></script>
-    <script src="./watchdog.js"></script>
-    <script src="./sorter.js"></script>
-    <script src="./reload.js"></script>
+    <script src="./js/chart.js"></script>
+    <script src="./js/formatTime.js"></script>
+    <script src="./js/filter.js"></script>
+    <script src="./js/update.js"></script>
+    <script src="./js/layouts.js"></script>
+    <script src="./js/watchdog.js"></script>
+    <script src="./js/sorter.js"></script>
+    <script src="./js/reload.js"></script>
 
     <script>
-        debug = true;
+        debug = false;
         setDefault();
         
         var lastUpdate = "";
@@ -72,5 +72,6 @@
         var globalMax = 0;
         var data = {};
         reloadData(true);
+        setInterval(reloadData, 20000);
     </script>
 </html>
