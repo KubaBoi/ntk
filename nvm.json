@@ -16,5 +16,17 @@
         "search_time": 2,
         "people": 4,
         "floor": 5
+    },
+    {
+        "time": "23.01.09T15:00",
+        "search_time": 15,
+        "people": 2,
+        "floor": -1
+    },
+    {
+        "time": "23.01.09T19:00",
+        "search_time": 5,
+        "people": 2,
+        "floor": 3
     }
 ]
