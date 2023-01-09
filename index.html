@@ -14,8 +14,8 @@
         <br>
         <label>Interval automatické aktualizace: `(minuta - 2) % 10 == 0`</label>
         <br><br>
-        <button onclick="window.locbuttontion = 'info.html'">Info</a>
-        <button onclick="rel()">aktualizovat</button>
+        <button onclick="window.location = 'info.html'">Info</a>
+        <button onclick="reloadData(true)">Aktualizovat</button>
         <br>
 
         <hr>
@@ -65,11 +65,12 @@
 
     <script>
         debug = true;
-        var data = {};
-        getData();
         setDefault();
-        buildLayoutSelect();
-        //change();
         
+        var lastUpdate = "";
+        var lastUpdateValue = 0;
+        var globalMax = 0;
+        var data = {};
+        reloadData(true);
     </script>
 </html>

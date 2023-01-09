@@ -7,7 +7,8 @@ import datetime
 import uuid
 from bs4 import BeautifulSoup
 
-from repair_data import repair_data
+from src.repair_data import repair_data
+from src.config import config
 
 def get_soup() -> BeautifulSoup:
     """Get html from ntk website. If request fail exception raised"""
@@ -40,8 +41,16 @@ def prepare_date() -> list:
         add_zeros(date.hour)
     ]
 
-def add_to_json(data, keys, step, value):
-    """Prepare json data"""
+def add_to_json(data, keys, value, step=0):
+    """
+    Prepare json data
+    
+    `keys` date keys
+
+    `value` value which is added into `data`
+    
+    `step` iteration of recursion
+    """
     key = keys[step]
     if (key not in data):
         if (step < 3):
@@ -49,11 +58,12 @@ def add_to_json(data, keys, step, value):
         else:
             data[key] = []
     if (step < 3):
-        data[key] = add_to_json(data[key], keys, step+1, value)
-        return data
+        data[key], minute = add_to_json(data[key], keys, value, step+1)
+        return data, minute
     else:
         data[key].append(value)
-        return data
+        minute = len(data[key]) - 1
+        return data, minute
 
 
 def save(capture_count: int) -> None:
@@ -69,8 +79,16 @@ def save(capture_count: int) -> None:
         data = json.loads(f.read())
     
     date = prepare_date()
-    data = add_to_json(data, date, 0, capture_count)
-    data = repair_data.repair(data, date)
+    data["values"], minute = add_to_json(data["values"], date, capture_count)
+    data["values"] = repair_data.repair(data["values"], date)
+    
+    minute = add_zeros(minute * config.CHECK_MINUTES)
+    data["last_update"] = f"{date[2]}.{date[1]}.{date[0]} {date[3]}:{minute}"
+    data["last_update_value"] = capture_count
+
+    if (data["global_max_value"] < capture_count):
+        data["global_max_value"] = capture_count
+        data["global_max"] = data["last_update"]
 
     data = json.dumps(data, sort_keys=True).replace('\'', '\"')
     with open(data_path, "w", encoding="utf-8") as f:
@@ -89,8 +107,7 @@ def is_debug():
     If script is runned not-on my server, than it would return True.
     """
     mac = str(uuid.getnode())
-    mac_hash = 691
-    return mac_hash != hash_mac(mac)
+    return config.MAC_HASH != hash_mac(mac)
 
 DEBUG = is_debug()
 if (DEBUG):
@@ -98,10 +115,11 @@ if (DEBUG):
 
 while (True):
     print("Checking...")
-    if (DEBUG or datetime.datetime.now().minute % 10 == 0):
+    if (DEBUG or datetime.datetime.now().minute % config.CHECK_MINUTES == 0):
         try:
-            print("Pull...")
-            if (not DEBUG): subprocess.call(["git", "pull"])
+            if (not DEBUG): 
+                print("Pull...")
+                subprocess.call(["git", "pull"])
             print("Scraping...")
             try:
                 count = get_count(get_soup())
@@ -109,13 +127,16 @@ while (True):
                 print("getCount error:", e)
                 count = 0
             save(count)
-            print("Add...")
-            if (not DEBUG): subprocess.call(["git", "add", "*"])
-            print("Commit...")
-            if (not DEBUG): subprocess.call(["git", "commit", "-m 'Auto Update'"])
-            print("Push...")
-            if (not DEBUG): subprocess.call(["git", "push"])
-            print("Waiting 3 minutes...")
+            if (not DEBUG): 
+                print("Add...")
+                subprocess.call(["git", "add", "*"])
+                print("Commit...")
+                subprocess.call(["git", "commit", "-m 'Auto Update'"])
+                print("Push...")
+                subprocess.call(["git", "push"])
+                print("Waiting 3 minutes...")
+            else:
+                break
         except Exception as e:
             print(e)
         time.sleep(180)
