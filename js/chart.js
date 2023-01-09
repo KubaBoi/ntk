@@ -7,6 +7,7 @@ const COLORS = [
 
 var peopleChart = null;
 var derivativeChart = null;
+var derivativeSecondChart = null;
 
 /**
  * Calculates derivatives
@@ -52,9 +53,6 @@ function createDerivatives(values) {
  * @param {Array} values... - y axis
  */
 function drawChart(labels) {
-    if (peopleChart != null) peopleChart.destroy();
-    if (derivativeChart != null) derivativeChart.destroy();
-
     let datasets = [];
     let derivatives = [];
     let derivativesSecond = [];
@@ -79,8 +77,26 @@ function drawChart(labels) {
         if (ret[2] > mx2) mx2 = ret[2];
     }
 
-    peopleChart = new Chart("peopleCountChart", {
-        type: "line",
+    draw(peopleChart, "peopleCountChart", "line", datasets, labels, 0, 1000);
+    draw(derivativeChart, "derivativeChart", "bar", derivatives, labels, mn, mx);
+    draw(derivativeSecondChart, "derivativeSecondChart", "bar", derivativesSecond, labels, mn2, mx2);
+}
+
+/**
+ * Draw one chart
+ * @param {Object} chartObj 
+ * @param {String} canvasId 
+ * @param {String} type 
+ * @param {Array} datasets 
+ * @param {Array} labels 
+ * @param {Integer} min 
+ * @param {Integer} max 
+ */
+function draw(chartObj, canvasId, type, datasets, labels, min, max) {
+    if (chartObj != null) chartObj.destroy();
+    
+    chartObj = new Chart(canvasId, {
+        type: type,
         data: {
             labels: labels,
             datasets: datasets
@@ -89,41 +105,10 @@ function drawChart(labels) {
             legend: {display: false},
             responsive: true,
             scales: {
-                yAxes: [{ticks: {min: 0, max:1000}}],
+                yAxes: [{ticks: {min: min, max:max}}],
             }
         }
     });
-
-    derivativeChart = new Chart("derivativeChart", {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: derivatives
-        },
-        options: {
-            legend: {display: false},
-            responsive: true,
-            scales: {
-                yAxes: [{ticks: {min: mn, max:mx}}],
-            }
-        }
-    });
-
-    derivativeChart = new Chart("derivativeSecondChart", {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: derivativesSecond
-        },
-        options: {
-            legend: {display: false},
-            responsive: true,
-            scales: {
-                yAxes: [{ticks: {min: mn2, max:mx2}}],
-            }
-        }
-    });
-
 }
 
 /**

@@ -18,7 +18,7 @@ function reworkTimes(times) {
  */
 function reworkTime(time) {
     let v = time.split(".");
-    return `${v[2]}.${v[3]}.${v[4]} ${v[1]}:${v[0]}`;
+    return `${v[2]}.${v[3]}.${v[4]} ${v[1]}:${v[0]}`; 
 }
 
 /**

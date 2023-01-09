@@ -1,3 +1,8 @@
+
+/**
+ * Reload data every 10th minute
+ * @param {*} force - reload even if it is not 10th minute
+ */
 function reloadData(force=false) {
     let now = new Date();
     if ((now.getMinutes() - 2) % 10 == 0 || force) {
@@ -5,6 +10,10 @@ function reloadData(force=false) {
     }
 }
 
+/**
+ * Call GET request for data
+ * if data are updated then update charts and header
+ */
 async function getData() {
     let response = await callEndpoint("GET", "data.json");
     if (response.last_update != lastUpdate) {
@@ -20,6 +29,9 @@ async function getData() {
     }
 }
 
+/**
+ * Update header
+ */
 function setActualization() {
     var label = document.getElementById("actCount");
     label.innerHTML = lastUpdateValue;
@@ -27,6 +39,3 @@ function setActualization() {
     var label2 = document.getElementById("lastUpdate");
     label2.innerHTML = lastUpdate;
 }
-
-
-setInterval(reloadData, 20000);
