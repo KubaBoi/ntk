@@ -58,15 +58,21 @@ function drawChart(labels) {
     let derivativesSecond = [];
     let mn, mn2 = -10;
     let mx, mx2 = 10;
+    let newLabels = [];
+
     for (let i = 1; i < arguments.length; i++) {
+        let ret = hideZeroValues(arguments[i], labels);
+        let newData = ret[0];
+        newLabels = ret[1];
+
         datasets.push({
             fill: true,
             linkTenstion: 0.2,
             backgroundColor: createRgba(COLORS[i-1], true),
             borderColor: createRgba(COLORS[i-1]),
-            data: arguments[i]
+            data: newData
         });
-        ret = createDerivatives([...arguments[i]]);
+        ret = createDerivatives([...newData]);
         derivatives.push(ret[0]);
         if (ret[1] < mn) mn = ret[1];
         if (ret[2] > mx) mx = ret[2];
@@ -77,9 +83,9 @@ function drawChart(labels) {
         if (ret[2] > mx2) mx2 = ret[2];
     }
 
-    draw(peopleChart, "peopleCountChart", "line", datasets, labels, 0, 1000);
-    draw(derivativeChart, "derivativeChart", "bar", derivatives, labels, mn, mx);
-    draw(derivativeSecondChart, "derivativeSecondChart", "bar", derivativesSecond, labels, mn2, mx2);
+    draw(peopleChart, "peopleCountChart", "line", datasets, newLabels, 0, 1000);
+    draw(derivativeChart, "derivativeChart", "bar", derivatives, newLabels, mn, mx);
+    draw(derivativeSecondChart, "derivativeSecondChart", "bar", derivativesSecond, newLabels, mn2, mx2);
 }
 
 /**

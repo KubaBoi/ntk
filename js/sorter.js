@@ -20,22 +20,44 @@ function sortKeys(obj) {
 }
 
 /**
- * Find last update 
- * @param {Object} obj
- * @param {String} date
- * @return {Array} [value, date->need reworkTime]
+ * Remove consecutive values of 0
+ * @param {Array} values 
+ * @param {Array} labels - better be copy
+ * @return {Array} [values, labels]
  */
-function findLast(obj, date="") {
-    let keys = sortKeys(obj);
-    let lastKey = keys[keys.length-1];
-    let nextObj = obj[lastKey];
-    date = lastKey + "." + date;
-    if (Array.isArray(nextObj)) {
-        let index = nextObj.length - 1;
-        let indexStr = index * 10;
-        if (indexStr == 0) indexStr = "00";
-        else indexStr = indexStr.toString();
-        return [nextObj[index], indexStr + "." + date];
+function hideZeroValues(values, labels) {
+    if (!hideZeros) {
+        return [values, labels];
     }
-    return findLast(nextObj, date);
+
+    let oldValue = 1;
+    let newValues = [];
+    let newLabels = [];
+    for (let i = 0; i < values.length; i++) {
+        if (values[i] == 0 && oldValue == 0) {
+            continue;
+        }
+        newValues.push(values[i]);
+        newLabels.push(labels[i]);
+        oldValue = values[i];
+    }
+    return [newValues, newLabels];
+}
+
+function changeZeroHide() {
+    var switchButton = document.getElementById("switchButton");
+
+    if (hideZeros) {
+        hideZeros = false;
+        switchButton.style.animationName = "switchDark";
+        switchButton.style.animationDuration = "0.2s";
+        switchButton.style.animationFillMode = "forwards";
+    }
+    else {
+        hideZeros = true;
+        switchButton.style.animationName = "switchLight";
+        switchButton.style.animationDuration = "0.2s";
+        switchButton.style.animationFillMode = "forwards";
+    }
+    reloadData(true);
 }

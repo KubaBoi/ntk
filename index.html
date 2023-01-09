@@ -3,6 +3,7 @@
         <meta charset='utf-8'>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/divSwitchStyle.css">
     </head>
     <body>
         <h2>Aktuální počet lidí:
@@ -39,6 +40,12 @@
         <input id="minuteInp2" placeholder="Minuta konec" type="number" min="0" max="50" step="10">
         <br><br>
         <button onclick="change()">Zobrazit</button>
+        <div id="switchDiv" class="switchDiv" onclick="changeZeroHide()">
+            <label id="switchLabel">Schovat nulové hodnoty</label>
+            <div class="switchBorder">
+                <div id="switchButton" class="switchButton"></div>
+            </div>
+        </div>
 
         <hr>
         <h3>Počet lidí:</h3>
@@ -65,6 +72,7 @@
 
     <script>
         debug = false;
+        var hideZeros = true;
         setDefault();
         
         var lastUpdate = "";
