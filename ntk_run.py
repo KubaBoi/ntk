@@ -63,10 +63,10 @@ def save(capture_count: int) -> None:
     `capture_count` is the value
     """
     path = os.path.abspath(os.path.dirname(__file__))
-    data_path = os.path.join(path, "data.js")
+    data_path = os.path.join(path, "data.json")
 
     with open(data_path, "r", encoding="utf-8") as f:
-        data = json.loads(f.read().replace("var data = ", ""))
+        data = json.loads(f.read())
     
     date = prepare_date()
     data = add_to_json(data, date, 0, capture_count)
@@ -74,25 +74,25 @@ def save(capture_count: int) -> None:
 
     data = json.dumps(data, sort_keys=True).replace('\'', '\"')
     with open(data_path, "w", encoding="utf-8") as f:
-        f.write(f"var data = {data}")
+        f.write(data)
 
-def hash(s):
+def hash_mac(s):
     """Return hash of string"""
     h = 0
     for i in s:
         h += ord(i)
     return h
 
-def isDebug():
+def is_debug():
     """
     Compare device mac with mac-hash of my personal server.
     If script is runned not-on my server, than it would return True.
     """
     mac = str(uuid.getnode())
     mac_hash = 691
-    return mac_hash != hash(mac)
+    return mac_hash != hash_mac(mac)
 
-DEBUG = isDebug()
+DEBUG = is_debug()
 if (DEBUG):
     print("Debug mode")
 

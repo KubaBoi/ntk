@@ -1,20 +1,17 @@
 function reloadData() {
     let now = new Date();
     if ((now.getMinutes() - 2) % 10 == 0) {
-        rel();
+        getData();
     }
 }
 
-function rel(timeout=500) {
-    let elem = document.querySelector("#scriptId");
-    elem.remove();
-    elem = document.createElement("script");
-    elem.id = "scriptId";
-    elem.src = "./data.js";
-    let head = document.getElementsByTagName("head")[0];
-    head.appendChild(elem);
-    setTimeout(change, timeout);
-    setTimeout(setActualization());
+async function getData() {
+    let response = await callEndpoint("GET", "data.json");
+    if (response != data) {
+        data = response;
+        change();
+        setActualization();
+    }
 }
 
 function setActualization() {

@@ -3,8 +3,6 @@
         <meta charset='utf-8'>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./style.css">
-
-        <script src="./data.js" id="scriptId"></script>
     </head>
     <body>
         <h2>Aktuální počet lidí:
@@ -53,6 +51,9 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
+    <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/communication.js"></script>
+    <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/time.js"></script>
+
     <script src="./chart.js"></script>
     <script src="./formatTime.js"></script>
     <script src="./filter.js"></script>
@@ -63,10 +64,12 @@
     <script src="./reload.js"></script>
 
     <script>
-        setActualization();
+        debug = true;
+        var data = {};
+        getData();
         setDefault();
         buildLayoutSelect();
-        change();
+        //change();
         
     </script>
 </html>
