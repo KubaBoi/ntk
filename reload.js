@@ -1,6 +1,6 @@
-function reloadData() {
+function reloadData(force=false) {
     let now = new Date();
-    if ((now.getMinutes() - 2) % 10 == 0) {
+    if ((now.getMinutes() - 2) % 10 == 0 || force) {
         getData();
     }
 }
@@ -9,8 +9,8 @@ async function getData() {
     let response = await callEndpoint("GET", "data.json");
     if (response != data) {
         data = response;
-        change();
         setActualization();
+        buildLayoutSelect();
     }
 }
 

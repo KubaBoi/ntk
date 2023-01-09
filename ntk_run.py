@@ -69,8 +69,8 @@ def save(capture_count: int) -> None:
         data = json.loads(f.read())
     
     date = prepare_date()
-    data = add_to_json(data, date, 0, capture_count)
-    data = repair_data.repair(data, date)
+    data["data"] = add_to_json(data["data"], date, 0, capture_count)
+    data["data"] = repair_data.repair(data["data"], date)
 
     data = json.dumps(data, sort_keys=True).replace('\'', '\"')
     with open(data_path, "w", encoding="utf-8") as f:
@@ -100,8 +100,9 @@ while (True):
     print("Checking...")
     if (DEBUG or datetime.datetime.now().minute % 10 == 0):
         try:
-            print("Pull...")
-            if (not DEBUG): subprocess.call(["git", "pull"])
+            if (not DEBUG): 
+                print("Pull...")
+                subprocess.call(["git", "pull"])
             print("Scraping...")
             try:
                 count = get_count(get_soup())
@@ -109,13 +110,16 @@ while (True):
                 print("getCount error:", e)
                 count = 0
             save(count)
-            print("Add...")
-            if (not DEBUG): subprocess.call(["git", "add", "*"])
-            print("Commit...")
-            if (not DEBUG): subprocess.call(["git", "commit", "-m 'Auto Update'"])
-            print("Push...")
-            if (not DEBUG): subprocess.call(["git", "push"])
-            print("Waiting 3 minutes...")
+            if (not DEBUG): 
+                print("Add...")
+                subprocess.call(["git", "add", "*"])
+                print("Commit...")
+                subprocess.call(["git", "commit", "-m 'Auto Update'"])
+                print("Push...")
+                subprocess.call(["git", "push"])
+                print("Waiting 3 minutes...")
+            else:
+                break
         except Exception as e:
             print(e)
         time.sleep(180)
