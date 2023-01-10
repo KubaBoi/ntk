@@ -87,6 +87,7 @@ function drawOffSets() {
             doSwitchAnim(button, border);
         }
     }
+    change();
 }
 
 /**
@@ -104,6 +105,7 @@ function changeOffSetActivity(id) {
         offSets[id].active = true;
         doSwitchAnim(button, border);
     }
+    change();
 }
 
 /**
