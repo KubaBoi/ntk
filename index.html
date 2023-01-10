@@ -49,6 +49,13 @@
         </div>
 
         <hr>
+        <div>
+            <label>Naměřené maximum: </label>
+            <label id="globalMaxValue"></label>
+            <br>
+            <label>Čas maxima: </label>
+            <label id="globalMax"></label>
+        </div>
         <h3>Počet lidí:</h3>
         <canvas id="peopleCountChart"></canvas>
         <h3>Derivace křivky:</h3>
@@ -78,7 +85,8 @@
         
         var lastUpdate = "";
         var lastUpdateValue = 0;
-        var globalMax = 0;
+        var globalMaxValue = 0;
+        var globalMax = "";
         var data = {};
         reloadData(true);
         setInterval(reloadData, 20000);
