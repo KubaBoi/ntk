@@ -6,14 +6,16 @@
  *
  * 
  * @param {object} obj 
+ * @param {Array} conditions 
  * @param {integer} step 
  * @param {string} date 
- * @param {Array} conditions 
  * @returns {Array} - two lists 
  *      [0] - values (y axis)
  *      [1] - labels (x axis)
  */
-function getLists(obj, step=0, date="", conditions=[[],[],[],[],[]]) {
+function getLists(obj, conditions=null, step=0, date="") {
+    if (conditions == null) conditions = [[],[],[],[],[]];
+    
     let values = [];
     let times = [];
     let keys = sortKeys(obj);
@@ -45,7 +47,7 @@ function getLists(obj, step=0, date="", conditions=[[],[],[],[],[]]) {
             times = times.concat(newTimes);
         } 
         else {
-            let vals = getLists(nextObj, step+1, newDate, conditions);
+            let vals = getLists(nextObj, conditions, step+1, newDate);
             values = values.concat(vals[0]);
             times = times.concat(vals[1]);
         }
@@ -66,5 +68,5 @@ function filterLists(obj) {
         strDate = arguments[i] + "." + strDate;
         step++;
     }
-    return getLists(obj, step, strDate);
+    return getLists(obj, null, step, strDate);
 }

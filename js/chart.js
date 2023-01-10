@@ -1,10 +1,4 @@
-const COLORS = [
-    [155, 0, 155, 0.7], // MAIN_COLOR - purple
-    [155, 155, 0, 0.7], // yellow
-    [0, 155, 155, 0.7], // cyan
-    [200, 155, 0, 0.7], // orange
-];
-
+// COLORS is in offset.js
 var peopleChart = null;
 var derivativeChart = null;
 var derivativeSecondChart = null;

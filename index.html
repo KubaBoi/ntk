@@ -1,6 +1,6 @@
 <html lang="cs">
     <head>
-        <meta charset='utf-8'>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./css/style.css">
         <link rel="stylesheet" href="./css/divSwitchStyle.css">
@@ -24,21 +24,27 @@
         <select id="layoutsInp" onchange="changeLayout()">
         </select>
         <br><br>
-        <input id="yearInp" placeholder="Rok" type="number" min="23">
-        <input id="yearInp2" placeholder="Rok konec" type="number" min="23">
+        <div>
+            <input id="yearInp" placeholder="Rok" type="number" min="23">
+            <input id="yearInp2" placeholder="Rok konec" type="number" min="23">
+            <br>
+            <input id="monthInp" placeholder="Měsíc" type="number" min="1" max="12">
+            <input id="monthInp2" placeholder="Měsíc konec" type="number" min="1" max="12">
+            <br>
+            <input id="dayInp" placeholder="Den" type="number" min="1" max="31">
+            <input id="dayInp2" placeholder="Den konec" type="number" min="1" max="31">
+            <br>
+            <input id="hourInp" placeholder="Hodina" type="number" min="0" max="23">
+            <input id="hourInp2" placeholder="Hodina konec" type="number" min="0" max="23">
+            <br>
+            <input id="minuteInp" placeholder="Minuta" type="number" min="0" max="50" step="10">
+            <input id="minuteInp2" placeholder="Minuta konec" type="number" min="0" max="50" step="10">
+        </div>
         <br>
-        <input id="monthInp" placeholder="Měsíc" type="number" min="1" max="12">
-        <input id="monthInp2" placeholder="Měsíc konec" type="number" min="1" max="12">
-        <br>
-        <input id="dayInp" placeholder="Den" type="number" min="1" max="31">
-        <input id="dayInp2" placeholder="Den konec" type="number" min="1" max="31">
-        <br>
-        <input id="hourInp" placeholder="Hodina" type="number" min="0" max="23">
-        <input id="hourInp2" placeholder="Hodina konec" type="number" min="0" max="23">
-        <br>
-        <input id="minuteInp" placeholder="Minuta" type="number" min="0" max="50" step="10">
-        <input id="minuteInp2" placeholder="Minuta konec" type="number" min="0" max="50" step="10">
+        <button onclick="addOffSet()">Přidat posun</button>
         <br><br>
+        <table id="offSetDiv"></table>
+        <hr>
         <button onclick="change()">Zobrazit</button>
         <br><br>
         <div id="switchDiv" class="switchDiv" onclick="changeZeroHide()">
@@ -68,6 +74,8 @@
 
     <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/communication.js"></script>
     <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/time.js"></script>
+    <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/tableBuilder.js"></script>
+    <script src="https://kubaboi.github.io/CheeseFramework/public/scripts/elementManager.js"></script>
 
     <script src="./js/chart.js"></script>
     <script src="./js/formatTime.js"></script>
@@ -77,6 +85,7 @@
     <script src="./js/watchdog.js"></script>
     <script src="./js/sorter.js"></script>
     <script src="./js/reload.js"></script>
+    <script src="./js/offsets.js"></script>
 
     <script>
         debug = false;
@@ -88,6 +97,8 @@
         var globalMaxValue = 0;
         var globalMax = "";
         var data = {};
+        var offSets = [];
+
         reloadData(true);
         setInterval(reloadData, 20000);
     </script>
