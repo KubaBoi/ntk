@@ -19,6 +19,7 @@ async function getData() {
     if (response.last_update != lastUpdate) {
         lastUpdate = response.last_update;
         lastUpdateValue = response.last_update_value;
+        globalMaxValue = response.global_max_value;
         globalMax = response.global_max;
         data = response.values;
         setActualization();
@@ -38,4 +39,10 @@ function setActualization() {
 
     var label2 = document.getElementById("lastUpdate");
     label2.innerHTML = lastUpdate;
+
+    var label3 = document.getElementById("globalMaxValue");
+    label3.innerHTML = globalMaxValue;
+
+    var label4 = document.getElementById("globalMax");
+    label4.innerHTML = globalMax;
 }
