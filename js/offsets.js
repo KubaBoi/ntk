@@ -35,7 +35,7 @@ function addOffSet() {
     offSets.push(
         {
             value: 1,
-            metric: 3,
+            metric: 2,
             active: true
         }
     );
