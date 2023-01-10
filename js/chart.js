@@ -100,6 +100,10 @@ function drawChart(labels) {
  */
 function draw(chartObj, canvasId, type, datasets, labels, min, max) {
     if (chartObj != null) chartObj.destroy();
+
+    let canvas = document.getElementById(canvasId);
+    let context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
     
     chartObj = new Chart(canvasId, {
         type: type,
