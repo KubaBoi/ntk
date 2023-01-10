@@ -13,69 +13,91 @@ function addZeros(val) {
 
 /**
  * Find values from filter and creates conditions
- * @param {string} id 
+ * @param {Object} func 
  * @param {Array} conditions 
  * @returns {Array}
  */
-function getValue(id, conditions) {
+function getValue(func, conditions) {
     conditions.push([]);
     let index = conditions.length - 1;
-    let value = document.getElementById(id).value;
+    let value = document.getElementById(`${func[0]}Inp`).value;
     if (value != "") {
         conditions[index].push(addZeros(value));
     }
     else return conditions;
 
     // finding range
-    let value2 = document.getElementById(id + "2").value;
+    let value2 = document.getElementById(`${func[0]}Inp` + "2").value;
     if (value2 != "") {
-        let watchdog = 0;
-        value = parseInt(value);
-        value2 = parseInt(value2);
-        while (value != value2) {
-            switch (id) {
-                case "minuteInp":
-                    value = addMinute(value);
-                    break;
-                case "hourInp":
-                    value = addHour(value);
-                    break;
-                case "dayInp":
-                    value = addDay(value);
-                    break;
-                case "monthInp":
-                    value = addMonth(value);
-                    break;
-                default:
-                    if (value < value2) value++;
-                    else value--;
-            }
-            conditions[index].push(addZeros(value));
-            if (watchdogCatch(watchdog++, getValue)) break;
-        }
+        conditions[index] = conditions[index].concat(findRange(func, value, value2));
     }
     return conditions;
+}
+
+/**
+ * Find range between value1 and value2
+ * @param {Object} func
+ * @param {Integer} value1 
+ * @param {Integer} value2 
+ * @returns {Array}
+ */
+function findRange(func, value1, value2) {
+    let arr = [];
+    let watchdog = 0;
+    value1 = parseInt(value1);
+    value2 = parseInt(value2);
+    while (value1 != value2) {
+        value1 = func[1](value1);
+        arr.push(addZeros(value1));
+        if (watchdogCatch(watchdog++, findRange)) break;
+    }
+    return arr;
 }
 
 /**
  * Do the chart update
  */
 function change() {
+    offSetChangeAll();
     let conditions = [];
+    let functions = [
+        ["year", addYear],
+        ["month", addMonth], 
+        ["day", addDay],
+        ["hour", addHour],
+        ["minute", addMinute]
+    ];
 
-    conditions = getValue("yearInp", conditions);
-    conditions = getValue("monthInp", conditions);
-    conditions = getValue("dayInp", conditions);
-    conditions = getValue("hourInp", conditions);
-    conditions = getValue("minuteInp", conditions);            
+    for (let i = 0; i < functions.length; i++) {
+        conditions = getValue(functions[i], conditions);
+    }    
 
-    let rets = getLists(data, 0, "", conditions);
-    rets[1] = reworkTimes(rets[1]);
-    if (rets[0].length == 0) {
+    let rets = getLists(data, conditions);
+    let labels = [...rets[1]];
+    let dataSets = [];
+    dataSets.push([...rets[0]]);
+    labels = reworkTimes(labels);
+    if (labels.length == 0) {
         alert("Nebyly nalezeny žádné údaje :(");
     }
     else {
-        drawChart(rets[1], rets[0]);
+        for (let i = 0; i < offSets.length; i++) {
+            let ofs = offSets[i];
+            if (!ofs.active) continue;
+
+            let newConds = [];
+            for (let i = 0; i < conditions.length; i++) {
+                newConds.push([...conditions[i]]);
+            }
+            for (let i = 0; i < newConds[ofs.metric].length; i++) {
+                let val = parseInt(newConds[ofs.metric][i]);
+                val = functions[ofs.metric][1](val, ofs.value * -1);
+                newConds[ofs.metric][i] = addZeros(val);
+            }
+            rets = getLists(data, newConds);
+            dataSets.push([...rets[0]]);
+        }
+        drawChart(labels, ...dataSets);
     }
 }
 

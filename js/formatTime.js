@@ -80,3 +80,14 @@ function addMonth(val, month=1) {
     if (val <= 0) return val + 12;
     return val;
 }
+
+/**
+ * Add year
+ * @param {integer} val 
+ * @param {integer} year
+ * @returns {integer}
+ */
+function addYear(val, year=1) {
+    val += year;
+    return val;
+}

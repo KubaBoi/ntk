@@ -44,29 +44,36 @@ function hideZeroValues(values, labels) {
     return [newValues, newLabels];
 }
 
+/**
+ * Changes value hideZeros and do the switch animation
+ */
 function changeZeroHide() {
     var switchButton = document.getElementById("switchButton");
     var switchBorder = document.getElementById("switchBorder");
 
     if (hideZeros) {
         hideZeros = false;
-        switchButton.style.animationName = "switchToOff";
-        switchButton.style.animationDuration = "0.2s";
-        switchButton.style.animationFillMode = "forwards";
-
-        switchBorder.style.animationName = "switchToOffBc";
-        switchBorder.style.animationDuration = "0.2s";
-        switchBorder.style.animationFillMode = "forwards";
+        doSwitchAnim(switchButton, switchBorder, "Off");
     }
     else {
         hideZeros = true;
-        switchButton.style.animationName = "switchToOn";
-        switchButton.style.animationDuration = "0.2s";
-        switchButton.style.animationFillMode = "forwards";
-
-        switchBorder.style.animationName = "switchToOnBc";
-        switchBorder.style.animationDuration = "0.2s";
-        switchBorder.style.animationFillMode = "forwards";
+        doSwitchAnim(switchButton, switchBorder);
     }
     change();
+}
+
+/**
+ * Do the switch button animation
+ * @param {Element} button 
+ * @param {Element} border 
+ * @param {String} val - "On" || "Off" 
+ */
+function doSwitchAnim(button, border, val="On") {
+    button.style.animationName = `switchTo${val}`;
+    button.style.animationDuration = "0.2s";
+    button.style.animationFillMode = "forwards";
+
+    border.style.animationName = `switchTo${val}Bc`;
+    border.style.animationDuration = "0.2s";
+    border.style.animationFillMode = "forwards";
 }
