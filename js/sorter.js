@@ -46,18 +46,27 @@ function hideZeroValues(values, labels) {
 
 function changeZeroHide() {
     var switchButton = document.getElementById("switchButton");
+    var switchBorder = document.getElementById("switchBorder");
 
     if (hideZeros) {
         hideZeros = false;
-        switchButton.style.animationName = "switchDark";
+        switchButton.style.animationName = "switchToOff";
         switchButton.style.animationDuration = "0.2s";
         switchButton.style.animationFillMode = "forwards";
+
+        switchBorder.style.animationName = "switchToOffBc";
+        switchBorder.style.animationDuration = "0.2s";
+        switchBorder.style.animationFillMode = "forwards";
     }
     else {
         hideZeros = true;
-        switchButton.style.animationName = "switchLight";
+        switchButton.style.animationName = "switchToOn";
         switchButton.style.animationDuration = "0.2s";
         switchButton.style.animationFillMode = "forwards";
+
+        switchBorder.style.animationName = "switchToOnBc";
+        switchBorder.style.animationDuration = "0.2s";
+        switchBorder.style.animationFillMode = "forwards";
     }
-    reloadData(true);
+    change();
 }

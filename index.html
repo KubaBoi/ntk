@@ -40,9 +40,10 @@
         <input id="minuteInp2" placeholder="Minuta konec" type="number" min="0" max="50" step="10">
         <br><br>
         <button onclick="change()">Zobrazit</button>
+        <br><br>
         <div id="switchDiv" class="switchDiv" onclick="changeZeroHide()">
-            <label id="switchLabel">Schovat nulové hodnoty</label>
-            <div class="switchBorder">
+            <label id="switchLabel">Schovat nulové hodnoty:</label>
+            <div id="switchBorder" class="switchBorder">
                 <div id="switchButton" class="switchButton"></div>
             </div>
         </div>
@@ -72,7 +73,7 @@
 
     <script>
         debug = false;
-        var hideZeros = true;
+        var hideZeros = false;
         setDefault();
         
         var lastUpdate = "";

@@ -1,15 +1,7 @@
 .switchDiv {
-    position: absolute;
     display: inline-flex;
-    width: 150px;
     height: 30px;
-    top: 5px;
-    right: 5px;
-    z-index: 102;
-    background-color: red;
-    border: solid;
     margin: center;
-    border-color: red;
     border-radius: 15px;
     padding-left: 5px;
 } 
@@ -18,8 +10,8 @@
     position: relative;
     border: solid;
     border-width: 1px;
-    border-color: green;
-    background-color: blue;
+    border-color: #5a2a75;
+    background-color: #242526;
     border-radius: 15px;
     width: 50px;
     height: 100%;
@@ -28,9 +20,9 @@
 .switchDiv .switchButton {
     position: relative;
     border: none;
-    background-color: green;
+    background-color: #5a2a75;
     border-radius: 50%;
-    top: 1px;
+    top: 5px;
     left: 2px;
     width: 20px;
     height: 20px;
@@ -38,16 +30,26 @@
 
 .switchDiv label {
     position: relative;
-    top: 1px;
+    top: 5px;
     padding-right: 4px;
 }
 
-@keyframes switchDark {
+@keyframes switchToOn {
     0% { left: 2px; }
     100% { left: 26px; }
 }
 
-@keyframes switchLight {
+@keyframes switchToOnBc {
+    0% { background-color: #242526; }
+    100% { background-color: #b0b3b8; }
+}
+
+@keyframes switchToOff {
     0% { left: 26px; }
     100% { left: 2px; }
+}
+
+@keyframes switchToOffBc {
+    0% { background-color: #b0b3b8; }
+    100% { background-color: #242526; }
 }
