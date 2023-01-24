@@ -77,7 +77,7 @@ function drawChart(labels) {
         if (ret[2] > mx2) mx2 = ret[2];
     }
 
-    draw(peopleChart, "peopleCountChart", "line", datasets, newLabels, 0, 1000);
+    draw(peopleChart, "peopleCountChart", "line", datasets, newLabels, 0, 1200);
     draw(derivativeChart, "derivativeChart", "bar", derivatives, newLabels, mn, mx);
     draw(derivativeSecondChart, "derivativeSecondChart", "bar", derivativesSecond, newLabels, mn2, mx2);
 }
