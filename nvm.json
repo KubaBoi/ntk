@@ -28,5 +28,11 @@
         "search_time": 5,
         "people": 2,
         "floor": 3
+    },
+    {
+        "time": "23.01.21T16:15",
+        "search_time": 10,
+        "people": 1,
+        "floor": 4
     }
 ]
