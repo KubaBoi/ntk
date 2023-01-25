@@ -25,12 +25,14 @@ function getDerivatives(values) {
  * @param {Array} values
  * @return {Array} of dataset objects
  */
-function createDerivatives(values) {
+function createDerivatives(values, defColor=null) {
     let ret = getDerivatives(values);
     let ders = ret[0];
     let colors = [];
     for (let i = 0; i < ders.length; i++) {
-        let color = createColor(ders[i], ret[1], ret[2], [0, 255, 0, 1], [255, 0, 0, 1], [140, 140, 0, 1]);
+        let color;
+        if (defColor == null) color = createColor(ders[i], ret[1], ret[2], [0, 255, 0, 1], [255, 0, 0, 1], [140, 140, 0, 1]);
+        else color = defColor;
         colors.push(createRgba(color));
     }
     let dataset = {
@@ -66,12 +68,15 @@ function drawChart(labels) {
             borderColor: createRgba(COLORS[i-1]),
             data: newData
         });
-        ret = createDerivatives([...newData]);
+        let defColor = null;
+        if (arguments.length > 2) defColor = COLORS[i-1];
+        
+        ret = createDerivatives([...newData], defColor);
         derivatives.push(ret[0]);
         if (ret[1] < mn) mn = ret[1];
         if (ret[2] > mx) mx = ret[2];
 
-        ret = createDerivatives([...ret[0].data]);
+        ret = createDerivatives([...ret[0].data], defColor);
         derivativesSecond.push(ret[0]);
         if (ret[1] < mn2) mn2 = ret[1];
         if (ret[2] > mx2) mx2 = ret[2];
